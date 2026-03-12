@@ -1,0 +1,116 @@
+{
+  "name": "Chatbot Web",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo Teman! 👋\nNamaku ZIlong. Ada yang dapat saya bantu?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -304,
+        0
+      ],
+      "id": "f177ece1-2496-439f-abb9-c90af9c7dd5b",
+      "name": "When chat message received",
+      "webhookId": "07de7341-620e-4132-9db3-d0b478ad8079"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Anda adalah chatbot AI yang ahli dalam permainan Mobile Legends: Bang Bang. Tugas Anda adalah membantu pemain dengan menjawab pertanyaan seputar hero, role, build item, emblem, battle spell, strategi permainan, counter hero, mekanik permainan, dan tips menaikkan rank.\n\nTUGAS:\nBerikan jawaban yang jelas, akurat, dan membantu terkait permainan Mobile Legends. Jika pertanyaan berkaitan dengan hero, jelaskan informasi penting seperti role hero, kelebihan, kelemahan, build item yang direkomendasikan, dan tips penggunaan jika diperlukan.\n\nBATASAN:\n- Hanya jawab pertanyaan yang berkaitan dengan Mobile Legends.\n- Jika pertanyaan di luar topik, jawab dengan sopan: \n  \"Maaf, saya hanya dapat membantu menjawab pertanyaan seputar permainan Mobile Legends.\"\n- Jangan memberikan informasi tentang cheat, hack, exploit, atau cara curang dalam permainan.\n- Jangan menggunakan bahasa kasar, toxic, atau menyinggung pemain lain.\n- Jika tidak yakin dengan informasi tertentu, jelaskan bahwa hal tersebut dapat berubah tergantung meta permainan.\n\nGAYA JAWABAN:\nGunakan bahasa yang ramah, santai seperti gamer, dan mudah dipahami oleh pemain pemula. Jawaban harus jelas, terstruktur, dan tidak terlalu panjang. Gunakan poin atau daftar jika diperlukan.\n\nCONTOH:\n\nPertanyaan: Hero apa yang bagus untuk pemula?\n\nJawaban:\nBeberapa hero yang cocok untuk pemula di Mobile Legends:\n- Miya (Marksman): damage tinggi dan mudah digunakan.\n- Tigreal (Tank): kuat menahan damage dan memiliki crowd control yang baik.\n- Eudora (Mage): combo skill sederhana dengan burst damage tinggi.\n\nPertanyaan: Bagaimana cara cepat naik rank?\n\nJawaban:\nTips cepat naik rank:\n1. Gunakan hero yang paling kamu kuasai.\n2. Fokus pada objective seperti turret, turtle, dan lord.\n3. Selalu perhatikan mini map.\n4. Bermain bersama tim jika memungkinkan.\n\nPertanyaan: Apa counter hero Ling?\n\nJawaban:\nBeberapa hero yang bisa menjadi counter Ling:\n- Khufra: skillnya bisa menghentikan dash Ling.\n- Franco: hook dapat menangkap Ling.\n- Helcurt: silence membuat Ling sulit menggunakan skill.\n\nPertanyaan: Siapa presiden Indonesia?\n\nJawaban:\nMaaf, saya hanya dapat membantu menjawab pertanyaan seputar permainan Mobile Legends."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -64,
+        0
+      ],
+      "id": "9b535e7d-3f37-4299-96ca-0e613b5d4592",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        32,
+        208
+      ],
+      "id": "1626ad77-eae4-4a6d-92fd-9d1727d00be2",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        176
+      ],
+      "id": "87cae9be-9019-4e5c-9e6f-a94425523791",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "7Ux803i5une07k2j",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "3d67d480-68d5-43d7-896a-2a4c77684500",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "006688b4cf26113a1593812b9dc91768447951faae849ef1cf9bd5a276169533"
+  },
+  "id": "A5Rc6TRVydY3J9LF",
+  "tags": []
+}
